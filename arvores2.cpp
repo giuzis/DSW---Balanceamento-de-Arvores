@@ -207,16 +207,16 @@ int remove(node** raiz, int dado)
 	return 1;
 }
 
-void rotacaoDireita(node** raiz, node* avo, node* pai)
+void rotacaoDireita(node** raiz, node* avo, node** pai)
 {
 	node* filho;
 	if(avo != NULL)
 	{
-		filho = pai->left;
-		pai->left = filho->right;
+		filho = (*pai)->left;
+		(*pai)->left = filho->right;
 		avo->right = filho;
-		filho->right = pai;
-		pai = filho;
+		filho->right = (*pai);
+		(*pai) = filho;
 	}
 	else
 	{
@@ -255,7 +255,7 @@ void criaEspinhaDorsal (node** raiz)
 
 	while((*raiz)->left != NULL)
 	{
-		rotacaoDireita(raiz, avo, pai);
+		rotacaoDireita(raiz, avo, &pai);
 	}
 	avo = *raiz;
 	pai = (*raiz)->right;
@@ -263,7 +263,7 @@ void criaEspinhaDorsal (node** raiz)
 	{
 		while(pai->left != NULL)
 		{
-			rotacaoDireita(raiz, avo, pai);
+			rotacaoDireita(raiz, avo, &pai);
 		}
 		avo = pai;
 		pai = pai->right;
@@ -272,30 +272,40 @@ void criaEspinhaDorsal (node** raiz)
 
 void balanceiaArvore(node** raiz, int total)
 {
-	double log = log2((double)total - 1);
-	int m = (int)pow(2, log) - 1;
+	if(total > 2)
+	{
+	int n = total + 1;
+	int log = 0;
+  	while (1 < n) 
+  	{
+  	  n = (n >> 1);
+  	  log++;
+  	}
+	//double log = log2((double)total + 1);
+	int m = pow(2, log) - 1;
 	int rotacoes = total - m;
 	node* avo = NULL;
 	node* pai = *raiz;
-	for(int i = 0; i < rotacoes; i++)
-	{
-		rotacaoEsquerda(raiz, avo, &pai);
-		avo = pai;
-		pai = pai->right;
-	}
-	avo = NULL;
-	pai = *raiz;
-	
-	while(m > 1)
-	{
-		m = m/2;
-		for(int i = 0; i < m; i++)
+		for(int i = 0; i < rotacoes; i++)
 		{
 			rotacaoEsquerda(raiz, avo, &pai);
 			avo = pai;
-			pai = pai->right;			
+			pai = pai->right;
 		}
 		avo = NULL;
 		pai = *raiz;
+		
+		while(m > 1)
+		{
+			m = m/2;
+			for(int i = 0; i < m; i++)
+			{
+				rotacaoEsquerda(raiz, avo, &pai);
+				avo = pai;
+				pai = pai->right;			
+			}
+			avo = NULL;
+			pai = *raiz;
+		}
 	}
 }

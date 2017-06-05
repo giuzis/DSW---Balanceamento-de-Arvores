@@ -4,6 +4,7 @@ int main()
 {
     node *raiz = NULL;
     int dado = 1, contador = 0, comando = 7;
+    bool criou_espinha = false;
     system("clear");
 
     while(comando)
@@ -12,6 +13,7 @@ int main()
         cout << "Digite 2 para remover um dado. " << endl;
         cout << "Digite 3 para imprimir a arvore. " << endl;
         cout << "Digite 4 para criar espinha dorsal. " << endl;
+        cout << "Digite 5 para criar árvore balanceada. " << endl;
         cout << "Digite 0 para sair. " << endl;
         cin >> comando;
         switch (comando){
@@ -37,6 +39,7 @@ int main()
             mostraArvore(raiz, contador);
             break;
         case 4:
+        	criou_espinha = true;
             if(contador == 0)
             {
                 cout << "Arvore vazia. " << endl;
@@ -50,7 +53,11 @@ int main()
                 cout << "Arvore vazia. " << endl;
                 break;
             }
-            balanceiaArvore(&raiz, contador);
+            if(criou_espinha)
+            	balanceiaArvore(&raiz, contador);
+            else
+            	cout << "Necessario criar espinha antes. " << endl;
+            criou_espinha = false;
             break;
         case 0:
             break;

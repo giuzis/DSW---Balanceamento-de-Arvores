@@ -22,7 +22,7 @@ void mostraArvore(node* no, int n_elementos);
 void substitui(node* no, node* substituto);
 int remove(node** raiz, int dado);
 void criaEspinhaDorsal (node** raiz);
-void rotacaoDireita(node** raiz, node* avo, node* pai);
+void rotacaoDireita(node** raiz, node* avo, node** pai);
 void rotacaoEsquerda(node** raiz, node* avo, node** pai);
 //int rotacaoDireita (node* no);
 //void rotacaoEsquerda (node* no);
